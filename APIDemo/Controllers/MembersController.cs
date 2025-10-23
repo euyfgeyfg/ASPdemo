@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace APIDemo.Controllers
 {
-    [Authorize]
+    // [Authorize]
     public class MembersController(AppDbContext dbContext) : BaseApiController
     {
         [HttpGet]// localhsot:5001/api/members

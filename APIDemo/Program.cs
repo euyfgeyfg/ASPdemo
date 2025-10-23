@@ -46,14 +46,11 @@ if (app.Environment.IsDevelopment())
     .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 }
 
+
 app.UseAuthentication();// 你是谁
 app.UseAuthorization();// 你是谁之后，判断你是否有权限做某事情。
 
-
-
-// app.UseHttpsRedirection();
-
-app.UseAuthorization();
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
