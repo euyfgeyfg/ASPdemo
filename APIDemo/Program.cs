@@ -1,6 +1,7 @@
 using System.Text;
 using APIDemo.Data;
 using APIDemo.Interfaces;
+using APIDemo.Middleware;
 using APIDemo.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 var app = builder.Build();
+
+// 异常中间件，应该放在所有组件第一个
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
