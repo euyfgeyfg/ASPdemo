@@ -21,6 +21,7 @@ builder.Services.AddCors();
 
 // 服务设置接口
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -57,5 +58,20 @@ app.UseAuthorization();// 你是谁之后，判断你是否有权限做某事情
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var context = services.GetService<AppDbContext>();
+    if (context == null) return;
+    await context.Database.MigrateAsync();
+    await Seed.SeedUsers(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occured during migration");
+}
 
 app.Run();

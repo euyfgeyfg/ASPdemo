@@ -4,6 +4,7 @@ using APIDemo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIDemo.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251025200910_MemberEntityAdded")]
+    partial class MemberEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +67,7 @@ namespace APIDemo.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateOnly>("DateOfBirth")
@@ -77,7 +80,7 @@ namespace APIDemo.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
+                    b.Property<string>("Gendet")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -132,7 +135,7 @@ namespace APIDemo.Data.Migrations
             modelBuilder.Entity("APIDemo.Entities.Photo", b =>
                 {
                     b.HasOne("APIDemo.Entities.Member", "Member")
-                        .WithMany("Photos")
+                        .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -144,11 +147,6 @@ namespace APIDemo.Data.Migrations
                 {
                     b.Navigation("Member")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("APIDemo.Entities.Member", b =>
-                {
-                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }
